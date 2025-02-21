@@ -18,6 +18,44 @@ public class Main {
         new Scanner(System.in).nextLine();
     }
 
+    private static void choosePlayerType() {
+        Scanner scanner = new Scanner(System.in);
+        Player player1 = null, player2 = null;
+
+        System.out.println("Choose player 1 type: \n1) Human player \n2) Random player");
+        int player1Type = scanner.nextInt();
+        scanner.nextLine();
+
+        if (player1Type == 1) {
+            System.out.print("Enter player 1's name: ");
+            String name1 = scanner.nextLine();
+            player1 = new Player(name1);
+        } else if (player1Type == 2) {
+            player1 = new RandomPlayer("Random Player 1");
+        } else {
+            System.err.println("Invalid choice for player 1!");
+            return;
+        }
+
+        System.out.println("Choose player 2 type: \n1) Human player \n2) Random player");
+        int player2Type = scanner.nextInt();
+        scanner.nextLine();
+
+        if (player2Type == 1) {
+            System.out.print("Enter player 2's name: ");
+            String name2 = scanner.nextLine();
+            player2 = new Player(name2);
+        } else if (player2Type == 2) {
+            player2 = new RandomPlayer("Random Player 2");
+        } else {
+            System.err.println("Invalid choice for player 2!");
+            return;
+        }
+
+        Game game = new Game(player1, player2);
+        game.start();
+    }
+
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -35,18 +73,20 @@ public class Main {
                     break;
 
                 case "B":
-                    System.out.print("Enter player 1's name: ");
-                    String playerName1 = scanner.nextLine();
+                    System.out.println("Choose the level you would like to play\nA) Easy\nB) Medium\nC) Hard");
+                    String level = scanner.nextLine().toUpperCase();
+                    switch (level) {
+                        case "A":
+                            choosePlayerType();
+                            break;
+                        case "B":
+                            choosePlayerType();
+                            break;
+                        case "C":
+                            choosePlayerType();
+                            break;
+                    }
 
-                    System.out.print("Enter player 2's name: ");
-                    String playerName2 = scanner.nextLine();
-
-                    Player player1 = new Player(playerName1);
-                    Player player2 = new Player(playerName2);
-
-                    // Create a Game object and start the game
-                    Game game = new Game(player1,player2);
-                    game.start();
                     break;
 
                 case "C":
