@@ -4,11 +4,7 @@ import java.util.Collections;
 public class GameBoard {
     private ArrayList<Element> elements;
     private int size = 20;
-    private int columns = 5;
-    private int rows = 4;
-
     public GameBoard() {
-
 
         int pairs = 10;
         this.elements = new ArrayList<>();
@@ -25,20 +21,11 @@ public class GameBoard {
         Collections.shuffle(elements);
     }
     public void displayBoard() {
-        // Print column indices header
-        System.out.print("    "); // initial spacing for row labels
-        for (int j = 0; j < columns; j++) {
-            System.out.printf("%-5d", j);
-        }
-        System.out.println();
-
         // Print a separator line
-        System.out.println("   -------------------------");
+        System.out.println(" -------------------------");
 
         // Print each row with its content
         for (int i = 0; i < 4; i++) {
-            // Print row index at the beginning
-            System.out.printf("%d |", i);
             for (int j = 0; j < 5; j++) {
                 // Calculate index for the one-dimensional list (row-major order)
                 int index = i * 5 + j;
@@ -50,7 +37,7 @@ public class GameBoard {
             }
             System.out.println();
             // Print a separator line after each row
-            System.out.println("    -------------------------");
+            System.out.println(" -------------------------");
         }
     }
 

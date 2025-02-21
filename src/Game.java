@@ -20,20 +20,20 @@ public class Game {
         System.out.println("       "+player1.getName() + " VS " + player2.getName());
         System.out.println("Ready...");
         try {
-            Thread.sleep(1000); // Pause for 3000 milliseconds (3 seconds)
+            Thread.sleep(1000); // Pause for 1 second
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         System.out.println("Steady...");
         try {
-            Thread.sleep(1000); // Pause for 3000 milliseconds (3 seconds)
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         System.out.println("GO!...");
         Toolkit.getDefaultToolkit().beep();
         try {
-            Thread.sleep(1000); // Pause for 3000 milliseconds (3 seconds)
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -44,7 +44,7 @@ public class Game {
         }
         board.displayBoard();
         try {
-            Thread.sleep(3000); // Pause for 3000 milliseconds (3 seconds)
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -53,7 +53,6 @@ public class Game {
         for (int i = 0; i < 20; i++) {
             board.getElement(i).setVisible(false);
         }
-        // true if it's player1's turn, false if it's player2's turn
         boolean isPlayer1Turn = true;
 
         // Main game loop
@@ -62,49 +61,82 @@ public class Game {
             System.out.println("\n" + currentPlayer.getName() + "'s turn:");
             board.displayBoard();
 
-            // Get first card
-            System.out.print("Enter first card index to show: ");
-            int pos1 = scanner.nextInt();
-            if (pos1 < 0 || pos1 >= 20) {
-                System.err.println("Invalid position! Please try again.");
-                continue;
+            // Offer hint at the start of the turn
+            if (!currentPlayer.isHelpUsed()) {
+                System.out.print(currentPlayer.getName() + ", do you want a hint before picking? (Y/N): ");
+                String hint = scanner.next();
+                if (hint.equalsIgnoreCase("Y") && !currentPlayer.isHelpUsed()) {
+                    currentPlayer.setHelpUsed(true);
+                    showCard();
+                }
             }
+
+            int pos1 = -1; // Default invalid value
+            System.out.print("Enter first card index to show: ");
+
+            while (true) {
+
+                // Check if the next token is an integer
+                if (scanner.hasNextInt()) {
+                    pos1 = scanner.nextInt();
+
+                    // Check if pos1 is in the valid range
+                    if (pos1 >= 0 && pos1 < 20) {
+
+                        // Check if the card is already visible
+                        if (board.getElement(pos1).isVisible()) {
+                            System.err.println("The card is already visible! Please choose another card.");
+                        } else {
+                            // Valid input and card is not visible
+                            break;
+                        }
+                    }
+                } else {
+                    System.err.println("Invalid input! Please try again.");
+                    scanner.next();
+                }
+            }
+
+
             Element e1 = board.getElement(pos1);
             e1.setVisible(true);
             board.displayBoard();
 
             // Get second card
+            int pos2 = -1;
             System.out.print("Enter second card index to show: ");
-            int pos2 = scanner.nextInt();
-            if (pos2 < 0 || pos2 >= 20 || pos1 == pos2) {
-                System.err.println("Invalid position! Please try again.");
-                // Hide the first card if second is invalid
-                e1.setVisible(false);
-                continue;
+
+            while (true) {
+                if (scanner.hasNextInt()) {
+                    pos2 = scanner.nextInt();
+                    if (pos2 >= 0 && pos2 < 20) {
+
+                        if (board.getElement(pos2).isVisible()) {
+                            System.err.println("The card is already visible! Please choose another card.");
+                        } else {
+                            // Valid input and card is not visible
+                            break;
+                        }
+                    }
+                } else {
+                    System.err.println("Invalid input!");
+                    scanner.next();
+                }
             }
             Element e2 = board.getElement(pos2);
             e2.setVisible(true);
             board.displayBoard();
 
-            // Check if they match
+            // Check for a match
             if (e1.getValue().equals(e2.getValue())) {
                 System.out.println("It's a match!");
                 currentPlayer.increaseScore(1);
-                // currentPlayer gets another turn
             } else {
                 e1.setVisible(false);
                 e2.setVisible(false);
-                // Change turn to the other player only if no match was found.
-                isPlayer1Turn = !isPlayer1Turn;
+                isPlayer1Turn = !isPlayer1Turn; // Switch turn
             }
 
-            // Optional: Help option (hint) for the current turn
-            System.out.print("Do you want a hint? (Y/N): ");
-            String hint = scanner.next();
-            if (hint.equalsIgnoreCase("Y") && !currentPlayer.isHelpUsed()) {
-                currentPlayer.setHelpUsed(true);
-                showCard();
-            }
         }
 
         System.out.println("\nCongratulations! All pairs have been revealed.");
@@ -121,14 +153,33 @@ public class Game {
 
     private void showCard() {
         System.out.print("Enter the card index for a hint: ");
-        int pos = scanner.nextInt();
-        if (pos < 0 || pos >= 20) {
-            System.err.println("Invalid position!");
-            return;
+        int pos = -1;
+        while (true) {
+            if (scanner.hasNextInt()) {
+                pos = scanner.nextInt();
+                if (pos >= 0 && pos < 20) {
+
+                    if (board.getElement(pos).isVisible()) {
+                        System.err.println("The card is already visible! Please choose another card.");
+                    } else {
+                        // Valid input and card is not visible
+                        break;
+                    }
+                }
+            } else {
+                System.err.println("Invalid input!");
+                scanner.next();
+            }
         }
         Element e = board.getElement(pos);
         e.setVisible(true);
         board.displayBoard();
-        // Optionally, you can hide the card again after the hint.
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException err) {
+            err.printStackTrace();
+        }
+        board.getElement(pos).setVisible(false);
+        board.displayBoard();
     }
 }
