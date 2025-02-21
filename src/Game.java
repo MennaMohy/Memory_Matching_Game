@@ -6,13 +6,15 @@ public class Game {
     private Player player2;
     private GameBoard board;
     private int pairs;
+    private int size;
     private Scanner scanner = new Scanner(System.in);
 
-    public Game(Player player1, Player player2) {
+    public Game(Player player1, Player player2,int size) {
         this.player1 = player1;
         this.player2 = player2;
-        this.pairs = 10;
-        this.board = new GameBoard();
+        this.pairs = size/2;
+        this.board = new GameBoard(size);
+        this.size = size;
     }
 
     public void start() {
@@ -39,7 +41,7 @@ public class Game {
         }
 
         // Reveal all cards for 3 seconds
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < size; i++) {
             board.getElement(i).setVisible(true);
         }
         board.displayBoard();
@@ -50,7 +52,7 @@ public class Game {
         }
 
         // Hide all cards after the pause
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < size; i++) {
             board.getElement(i).setVisible(false);
         }
 
@@ -75,29 +77,27 @@ public class Game {
             // Get first card index
             int pos1 = -1;
             if (currentPlayer instanceof RandomPlayer) {
-                pos1 = ((RandomPlayer) currentPlayer).getMove(20);
+                pos1 = ((RandomPlayer) currentPlayer).getMove(size);
                 System.out.println(currentPlayer.getName() + " selects card index: " + pos1);
                 while (board.getElement(pos1).isVisible()) {
-                    pos1 = ((RandomPlayer) currentPlayer).getMove(20);
-                    System.out.println("Card already visible. " + currentPlayer.getName()
-                            + " selects another card: " + pos1);
+                    pos1 = ((RandomPlayer) currentPlayer).getMove(size);
                 }
             } else {
                 System.out.print("Enter first card index to show: ");
                 while (true) {
                     if (scanner.hasNextInt()) {
                         pos1 = scanner.nextInt();
-                        if (pos1 >= 0 && pos1 < 20) {
+                        if (pos1 >= 0 && pos1 < size) {
                             if (board.getElement(pos1).isVisible()) {
                                 System.err.println("The card is already visible! Please choose another card.");
                             } else {
                                 break;
                             }
                         } else {
-                            System.err.println("Invalid input! Please enter a number between 0 and 19.");
+                            System.err.println("Invalid input! Please try again");
                         }
                     } else {
-                        System.err.println("Invalid input! Please try again.");
+                        System.err.println("Invalid input! Please try again");
                         scanner.next();
                     }
                 }
@@ -109,19 +109,17 @@ public class Game {
             // Get second card index
             int pos2 = -1;
             if (currentPlayer instanceof RandomPlayer) {
-                pos2 = ((RandomPlayer) currentPlayer).getMove(20);
+                pos2 = ((RandomPlayer) currentPlayer).getMove(size);
                 System.out.println(currentPlayer.getName() + " selects card index: " + pos2);
                 while (pos2 == pos1 || board.getElement(pos2).isVisible()) {
-                    pos2 = ((RandomPlayer) currentPlayer).getMove(20);
-                    System.out.println("Invalid selection. " + currentPlayer.getName()
-                            + " selects another card: " + pos2);
+                    pos2 = ((RandomPlayer) currentPlayer).getMove(size);
                 }
             } else {
                 System.out.print("Enter second card index to show: ");
                 while (true) {
                     if (scanner.hasNextInt()) {
                         pos2 = scanner.nextInt();
-                        if (pos2 >= 0 && pos2 < 20) {
+                        if (pos2 >= 0 && pos2 < size) {
                             if (pos2 == pos1) {
                                 System.err.println("You cannot choose the same card twice! Please choose another card.");
                             } else if (board.getElement(pos2).isVisible()) {
@@ -130,10 +128,10 @@ public class Game {
                                 break;
                             }
                         } else {
-                            System.err.println("Invalid input! Please enter a number between 0 and 19.");
+                            System.err.println("Invalid input! Please try again");
                         }
                     } else {
-                        System.err.println("Invalid input! Please try again.");
+                        System.err.println("Invalid input! Please try again");
                         scanner.next();
                     }
                 }
@@ -171,6 +169,7 @@ public class Game {
         } else {
             System.out.println("It's a tie!");
         }
+        System.out.println();
     }
 
     private void showCard() {
@@ -179,7 +178,7 @@ public class Game {
         while (true) {
             if (scanner.hasNextInt()) {
                 pos = scanner.nextInt();
-                if (pos >= 0 && pos < 20) {
+                if (pos >= 0 && pos < size) {
                     if (board.getElement(pos).isVisible()) {
                         System.err.println("The card is already visible! Please choose another card.");
                     } else {

@@ -3,22 +3,26 @@ import java.util.Scanner;
 public class Main {
 
     private static void displayInstructions() {
-        System.out.println("\n========== Instructions ==========");
-        System.out.println("1. The Memory Matching Game is played on a board with 20 cards (10 pairs).");
-        System.out.println("2. Each card hides an emoji. Your goal is to find matching pairs.");
-        System.out.println("3. At the start of the game, all cards will be briefly revealed for 3 seconds so you can memorize their positions.");
-        System.out.println("4. During your turn, you will select two cards by entering their indices.");
-        System.out.println("5. If the selected cards match, they remain visible and you score a point.");
-        System.out.println("6. If they do not match, the cards will be hidden again.");
-        System.out.println("7. Two players take turns; if you find a match, you get another turn.");
-        System.out.println("8. Once per game, you can use a hint to reveal a card's value to help you remember its location.");
-        System.out.println("9. The game continues until all pairs are revealed.");
-        System.out.println("10. The player with the most points at the end wins.");
+        System.out.println("\n========================= Instructions =========================");
+        System.out.println("* The Memory Matching Game is played on a board with a variable number of cards:");
+        System.out.println("   - Easy: 12 cards (6 pairs) arranged in 3 rows x 4 columns");
+        System.out.println("   - Medium: 16 cards (8 pairs) arranged in 4 rows x 4 columns");
+        System.out.println("   - Hard: 20 cards (10 pairs) arranged in 4 rows x 5 columns");
+        System.out.println("* Each card hides an emoji. Your goal is to find matching pairs.");
+        System.out.println("* At the start of the game, all cards will be briefly revealed for 3 seconds so you can memorize their positions.");
+        System.out.println("* During your turn, you will select two cards by entering their indices.");
+        System.out.println("* If the selected cards match, they remain visible and you score a point.");
+        System.out.println("* If they do not match, the cards will be hidden again.");
+        System.out.println("* Two players take turns; if you find a match, you get another turn.");
+        System.out.println("* Once per game, you can use a hint to reveal a card's value to help you remember its location.");
+        System.out.println("* The game continues until all pairs are revealed.");
+        System.out.println("* The player with the most points at the end wins.");
         System.out.println("\nPress Enter to return to the main menu...");
         new Scanner(System.in).nextLine();
     }
 
-    private static void choosePlayerType() {
+
+    private static void choosePlayerType(int size) {
         Scanner scanner = new Scanner(System.in);
         Player player1 = null, player2 = null;
 
@@ -52,16 +56,16 @@ public class Main {
             return;
         }
 
-        Game game = new Game(player1, player2);
+        Game game = new Game(player1, player2,size);
         game.start();
     }
 
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("==================================");
-        System.out.println("Welcome to MEMORY MATCHING GAME !");
-        System.out.println("==================================\n");
+        System.out.println("===========================================================");
+        System.out.println("            Welcome to MEMORY MATCHING GAME !");
+        System.out.println("===========================================================\n");
 
         while (true) {
             System.out.println("Choose:\nA) Display instructions\nB) Start the Game\nC) Exit");
@@ -77,14 +81,16 @@ public class Main {
                     String level = scanner.nextLine().toUpperCase();
                     switch (level) {
                         case "A":
-                            choosePlayerType();
+                            choosePlayerType(12);
                             break;
                         case "B":
-                            choosePlayerType();
+                            choosePlayerType(16);
                             break;
                         case "C":
-                            choosePlayerType();
+                            choosePlayerType(20);
                             break;
+                        default:
+                            System.out.println("Please enter a valid option.");
                     }
 
                     break;
