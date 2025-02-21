@@ -8,6 +8,8 @@ public class GameBoard {
     private int rows = 4;
 
     public GameBoard() {
+
+
         int pairs = 10;
         this.elements = new ArrayList<>();
         String[] emojis = {
