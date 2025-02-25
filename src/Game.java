@@ -21,8 +21,9 @@ public class Game {
         System.out.println("\nLet's start the game! All the cards will be shown for 3 seconds");
         System.out.println("       " + player1.getName() + " VS " + player2.getName());
         System.out.println("Ready...");
+        // Pause for 1 second
         try {
-            Thread.sleep(1000); // Pause for 1 second
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -33,6 +34,7 @@ public class Game {
             e.printStackTrace();
         }
         System.out.println("GO!...");
+        // Add sound effect to GO text
         Toolkit.getDefaultToolkit().beep();
         try {
             Thread.sleep(1000);
@@ -64,11 +66,12 @@ public class Game {
             System.out.println("\n" + currentPlayer.getName() + "'s turn:");
             board.displayBoard();
 
-            // Offer hint at the start of the turn if not already used
+            // Offer hint at the start of the turn if not already used and if the player is not random
             if (!currentPlayer.isHelpUsed() && !(currentPlayer instanceof RandomPlayer)) {
                 System.out.print(currentPlayer.getName() + ", do you want a hint before picking? (Y/N): ");
                 String hint = scanner.next();
                 if (hint.equalsIgnoreCase("Y")) {
+                    // The hint is used, show the card
                     currentPlayer.setHelpUsed(true);
                     showCard();
                 }
@@ -144,21 +147,21 @@ public class Game {
             if (e1.getValue().equals(e2.getValue())) {
                 System.out.println("It's a match!");
                 currentPlayer.increaseScore(1);
-                // Optional: Leave the cards visible or mark them as matched
             } else {
                 // Pause briefly so players can see the second card before hiding both
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1500);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
                 e1.setVisible(false);
                 e2.setVisible(false);
-                isPlayer1Turn = !isPlayer1Turn; // Switch turn if no match
+                // Switch turn if no match
+                isPlayer1Turn = !isPlayer1Turn;
             }
         }
 
-        // Game over: all pairs have been revealed.
+        // Game has ended
         System.out.println("\nCongratulations! All pairs have been revealed.");
         System.out.println(player1.getName() + "'s score: " + player1.getScore());
         System.out.println(player2.getName() + "'s score: " + player2.getScore());

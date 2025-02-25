@@ -18,19 +18,15 @@ public class GameBoard {
         } else if (size == 16) {
             rows = 4;
             cols = 4;
-        } else if (size == 20) {
+        } else {
             rows = 4;
             cols = 5;
-        } else {
-            // Fallback: try to create a roughly square board.
-            rows = (int) Math.sqrt(size);
-            cols = size / rows;
         }
 
         // Calculate the number of pairs.
         int pairs = size / 2;
 
-        // An array of emojis. We have more than enough for our possible pair counts.
+        // An array of emojis.
         String[] emojis = {
                 "\uD83D\uDE00", "\uD83D\uDE02", "\uD83D\uDC99",
                 "\uD83D\uDE0A", "\uD83D\uDE0D", "\uD83C\uDF4E",

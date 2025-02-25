@@ -97,7 +97,7 @@ public class Main {
 
                 case "C":
                     System.out.println("GoodBye!");
-                    return;  // Exit the program
+                    return;
 
                 default:
                     System.out.println("Please enter a valid option.");
