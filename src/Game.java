@@ -81,11 +81,12 @@ public class Game {
             int pos1 = -1;
             if (currentPlayer instanceof RandomPlayer) {
                 pos1 = ((RandomPlayer) currentPlayer).getMove(size);
-                System.out.println(currentPlayer.getName() + " selects card index: " + pos1);
                 while (board.getElement(pos1).isVisible()) {
                     pos1 = ((RandomPlayer) currentPlayer).getMove(size);
                 }
-            } else {
+                System.out.println(currentPlayer.getName() + " selects card index: " + pos1);
+            }
+            else {
                 System.out.print("Enter first card index to show: ");
                 while (true) {
                     if (scanner.hasNextInt()) {
@@ -113,10 +114,12 @@ public class Game {
             int pos2 = -1;
             if (currentPlayer instanceof RandomPlayer) {
                 pos2 = ((RandomPlayer) currentPlayer).getMove(size);
-                System.out.println(currentPlayer.getName() + " selects card index: " + pos2);
+                // Make sure that Random chooses 2 different index
                 while (pos2 == pos1 || board.getElement(pos2).isVisible()) {
                     pos2 = ((RandomPlayer) currentPlayer).getMove(size);
                 }
+                System.out.println(currentPlayer.getName() + " selects card index: " + pos2);
+
             } else {
                 System.out.print("Enter second card index to show: ");
                 while (true) {
