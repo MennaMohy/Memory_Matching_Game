@@ -1,6 +1,6 @@
 # 🧠 Memory Matching Game (Java)
 
-A console-based (or GUI-based) memory matching game developed in **Java**.  
+A console-based memory matching game developed in **Java**.  
 Test your memory by matching pairs of hidden cards. Great for improving concentration and logic!
 
 ## 🎮 Features
